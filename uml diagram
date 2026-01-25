@@ -1,0 +1,41 @@
+classDiagram
+
+class Main {
+    +main(String[] args)
+}
+
+class Menu {
+    +showMenu()
+    +handleUserInput()
+}
+
+class CsvLoader {
+    +loadPrices(String filePath) List~GoldPrice~
+}
+
+class GoldPrice {
+    -LocalDate date
+    -double price
+    +getDate() LocalDate
+    +getPrice() double
+}
+
+class GoldDataService {
+    +getPricesByYear(int year) List~GoldPrice~
+    +getMaxPrice() GoldPrice
+    +getMaxPriceByYear(int year) GoldPrice
+    +getCurrentPrice() GoldPrice
+}
+
+class StatisticsService {
+    +calculateAverage(List~GoldPrice~ prices) double
+    +calculateMedian(List~GoldPrice~ prices) double
+}
+
+Main --> Menu
+Menu --> GoldDataService
+Menu --> StatisticsService
+GoldDataService --> CsvLoader
+GoldDataService --> GoldPrice
+StatisticsService --> GoldPrice
+CsvLoader --> GoldPrice
