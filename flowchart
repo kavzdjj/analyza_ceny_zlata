@@ -1,0 +1,10 @@
+flowchart TD
+    A[Spustenie programu] --> B[Zadanie roku a mesiaca nákupu]
+    B --> C[Zadanie množstva zlata v oz]
+    C --> D{Existujú dáta\npre daný mesiac?}
+    D -- Nie --> E[Vypísať chybu]
+    D -- Áno --> F[Nájsť cenu zlata\nv danom mesiaci]
+    F --> G[Nájsť aktuálnu cenu zlata]
+    G --> H[Vypočítať hodnotu majetku]
+    H --> I[Vypísať výsledok]
+    I --> J[Koniec programu]
