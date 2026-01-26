@@ -21,3 +21,52 @@ Program umožňuje:
 - vypočítať hodnotu majetku ku dnešnému dňu na základe nákupu zlata
 
 Ovládanie programu prebieha pomocou textového menu v konzole.
+
+
+## UML Diagram tried
+
+```mermaid
+classDiagram
+    class GoldPrice {
+        - LocalDate date
+        - double pricePerOunce
+        + getDate()
+        + getPricePerOunce()
+    }
+
+    class FileReader {
+        + readGoldPricesFromCSV(String filePath) List~GoldPrice~
+    }
+
+    class PriceAnalyzer {
+        - List~GoldPrice~ goldPrices
+        + calculateAveragePrice() double
+        + calculateMedianPriceForYear(int year) double
+        + findMaxPrice() GoldPrice
+        + printMonthlyPrices(int year, boolean eur, double kurz, boolean gramy)
+    }
+
+    class Main {
+        + main(String[] args)
+    }
+
+    FileReader --> GoldPrice
+    PriceAnalyzer --> GoldPrice
+    Main --> FileReader
+```
+# FLOWCHART – VÝPOČET HODNOTY ZLATA
+
+## Vývojový diagram výpočtu hodnoty zlata
+
+```mermaid
+flowchart TD
+    A[Začiatok] --> B[Načítanie dát z CSV]
+    B --> C[Zadanie roku a množstva zlata]
+    C --> D{Existujú dáta pre rok?}
+    D -- Nie --> E[Vypíše sa chyba]
+    D -- Áno --> F[Získanie ceny zlata]
+    F --> G[Prepočet meny a jednotiek]
+    G --> H[Výpis výslednej hodnoty]
+    H --> I[Koniec]
+    Main --> PriceAnalyzer
+```
