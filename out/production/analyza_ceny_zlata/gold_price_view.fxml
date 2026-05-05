@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<BorderPane xmlns="http://javafx.com/javafx/21"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="GoldPriceController"
+            prefWidth="900.0"
+            prefHeight="650.0"
+            style="-fx-background-color: #1e1e1e;">
+
+    <top>
+        <VBox alignment="CENTER" spacing="12.0" style="-fx-background-color: #2b2b2b;">
+            <padding>
+                <Insets top="20" right="20" bottom="20" left="20"/>
+            </padding>
+
+            <Label text="ANALÝZA CENY ZLATA"
+                   textFill="#D4AF37">
+                <font>
+                    <Font name="Serif Bold" size="30"/>
+                </font>
+            </Label>
+
+            <ImageView fx:id="goldImageView"
+                       fitWidth="260"
+                       fitHeight="140"
+                       preserveRatio="true">
+                <image>
+                    <Image url="@../images/gold.jpg"/>
+                </image>
+            </ImageView>
+        </VBox>
+    </top>
+
+    <center>
+        <VBox spacing="15.0" style="-fx-background-color: #1e1e1e;">
+            <padding>
+                <Insets top="20" right="20" bottom="20" left="20"/>
+            </padding>
+
+            <GridPane hgap="12.0" vgap="12.0">
+
+                <Label text="Rok:"
+                       textFill="WHITE"
+                       GridPane.rowIndex="0"
+                       GridPane.columnIndex="0">
+                    <font>
+                        <Font name="System Bold" size="14"/>
+                    </font>
+                </Label>
+
+                <TextField fx:id="yearField"
+                           text="2024"
+                           promptText="Zadaj rok"
+                           GridPane.rowIndex="0"
+                           GridPane.columnIndex="1"/>
+
+                <Label text="Mena:"
+                       textFill="WHITE"
+                       GridPane.rowIndex="0"
+                       GridPane.columnIndex="2">
+                    <font>
+                        <Font name="System Bold" size="14"/>
+                    </font>
+                </Label>
+
+                <ComboBox fx:id="currencyComboBox"
+                          prefWidth="140"
+                          GridPane.rowIndex="0"
+                          GridPane.columnIndex="3"/>
+
+                <Label text="Jednotka:"
+                       textFill="WHITE"
+                       GridPane.rowIndex="1"
+                       GridPane.columnIndex="0">
+                    <font>
+                        <Font name="System Bold" size="14"/>
+                    </font>
+                </Label>
+
+                <ComboBox fx:id="unitComboBox"
+                          prefWidth="140"
+                          GridPane.rowIndex="1"
+                          GridPane.columnIndex="1"/>
+
+                <Label text="Kurz USD → EUR:"
+                       textFill="WHITE"
+                       GridPane.rowIndex="1"
+                       GridPane.columnIndex="2">
+                    <font>
+                        <Font name="System Bold" size="14"/>
+                    </font>
+                </Label>
+
+                <TextField fx:id="exchangeRateField"
+                           text="0.92"
+                           promptText="napr. 0.92"
+                           GridPane.rowIndex="1"
+                           GridPane.columnIndex="3"/>
+            </GridPane>
+
+            <HBox spacing="12.0" alignment="CENTER">
+                <Button text="Výpis cien za rok"
+                        onAction="#handleShowYearPrices"
+                        prefWidth="170"
+                        style="-fx-background-color: #D4AF37; -fx-text-fill: black; -fx-font-weight: bold;"/>
+
+                <Button text="Priemerná cena"
+                        onAction="#handleShowAverage"
+                        prefWidth="160"
+                        style="-fx-background-color: #D4AF37; -fx-text-fill: black; -fx-font-weight: bold;"/>
+
+                <Button text="Medián za rok"
+                        onAction="#handleShowMedian"
+                        prefWidth="150"
+                        style="-fx-background-color: #D4AF37; -fx-text-fill: black; -fx-font-weight: bold;"/>
+
+                <Button text="Maximum za rok"
+                        onAction="#handleShowMaximum"
+                        prefWidth="150"
+                        style="-fx-background-color: #D4AF37; -fx-text-fill: black; -fx-font-weight: bold;"/>
+            </HBox>
+
+            <TextArea fx:id="outputArea"
+                      editable="false"
+                      wrapText="false"
+                      prefHeight="380"
+                      style="-fx-control-inner-background: #141414;
+                             -fx-text-fill: white;
+                             -fx-font-family: 'Consolas';
+                             -fx-font-size: 14px;
+                             -fx-border-color: #D4AF37;
+                             -fx-border-width: 1;"/>
+        </VBox>
+    </center>
+
+</BorderPane>

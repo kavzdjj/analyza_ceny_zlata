@@ -3,7 +3,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public class PriceAnalyzer {
-    private List<GoldPrice> goldPrices;
+    private final List<GoldPrice> goldPrices;
 
     public PriceAnalyzer(List<GoldPrice> goldPrices) {
         this.goldPrices = goldPrices;
@@ -16,8 +16,9 @@ public class PriceAnalyzer {
                 .orElse(0.0);
     }
 
-    public double calculateMedianPrice() {
+    public double calculateMedianPriceForYear(int year) {
         List<Double> prices = goldPrices.stream()
+                .filter(gp -> gp.getDate().getYear() == year)
                 .map(GoldPrice::getPricePerOunce)
                 .sorted()
                 .collect(Collectors.toList());
@@ -32,26 +33,41 @@ public class PriceAnalyzer {
         }
     }
 
-    public GoldPrice findMaxPrice() {
+    public GoldPrice findMaxPriceForYear(int year) {
         return goldPrices.stream()
+                .filter(gp -> gp.getDate().getYear() == year)
                 .max(Comparator.comparingDouble(GoldPrice::getPricePerOunce))
                 .orElse(null);
     }
 
-    public void printMonthlyPrices(int year, boolean eur, double kurzUsdEur, boolean gramy) {
+    public String getMonthlyPricesAsText(int year, boolean eur, double kurzUsdEur, boolean gramy) {
+        StringBuilder sb = new StringBuilder();
         String mena = eur ? "EUR" : "USD";
         String jednotka = gramy ? "g" : "oz";
 
-        for (GoldPrice gp : goldPrices) {
-            if (gp.getDate().getYear() != year) continue;
+        List<GoldPrice> filtered = goldPrices.stream()
+                .filter(gp -> gp.getDate().getYear() == year)
+                .collect(Collectors.toList());
 
+        if (filtered.isEmpty()) {
+            return "Pre rok " + year + " sa nenašli žiadne údaje.";
+        }
+
+        for (GoldPrice gp : filtered) {
             double cenaUsdZaOz = gp.getPricePerOunce();
-
             double cenaUsd = gramy ? cenaUsdZaOz / 31.1034768 : cenaUsdZaOz;
-
             double cenaFinal = eur ? cenaUsd * kurzUsdEur : cenaUsd;
 
-            System.out.println(gp.getDate() + " -> " + String.format("%.2f", cenaFinal) + " " + mena + "/" + jednotka);
+            sb.append(gp.getDate())
+                    .append(" -> ")
+                    .append(String.format("%.2f", cenaFinal))
+                    .append(" ")
+                    .append(mena)
+                    .append("/")
+                    .append(jednotka)
+                    .append("\n");
         }
+
+        return sb.toString();
     }
 }

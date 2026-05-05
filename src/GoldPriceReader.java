@@ -8,7 +8,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
-public class FileReader {
+public class GoldPriceReader {
 
     private static final DateTimeFormatter FORMAT_DNA = DateTimeFormatter.ofPattern("yyyy-MM-dd");
     private static final DateTimeFormatter FORMAT_MESIACA = DateTimeFormatter.ofPattern("yyyy-MM");
@@ -23,7 +23,6 @@ public class FileReader {
                 line = line.trim();
 
                 if (line.isEmpty()) continue;
-
                 if (line.toLowerCase().startsWith("date")) continue;
 
                 String[] values = line.split(",");
@@ -39,6 +38,7 @@ public class FileReader {
                     double price = Double.parseDouble(cenaText);
                     goldPrices.add(new GoldPrice(date, price));
                 } catch (Exception e) {
+                    // ignorujeme chybný riadok
                 }
             }
 
