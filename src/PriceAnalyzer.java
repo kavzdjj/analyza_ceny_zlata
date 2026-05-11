@@ -14,6 +14,10 @@ public class PriceAnalyzer {
         this.goldPrices = goldPrices;
     }
 
+    public List<GoldPrice> getGoldPrices() {
+        return goldPrices;
+    }
+
     public double calculateAveragePriceForYear(int year) {
         return goldPrices.stream()
                 .filter(gp -> gp.getDate().getYear() == year)

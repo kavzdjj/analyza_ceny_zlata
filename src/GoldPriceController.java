@@ -3,10 +3,19 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
+import javafx.scene.control.CheckBox;
+import javafx.scene.chart.LineChart;
+import javafx.scene.chart.XYChart;
 
 import java.util.List;
 
 public class GoldPriceController {
+
+    @FXML
+    private CheckBox showChartCheckBox;
+
+    @FXML
+    private LineChart<String, Number> lineChart;
 
     @FXML
     private TextField yearField;
@@ -64,11 +73,35 @@ public class GoldPriceController {
                         "- výpočet mediánu v danom roku,\n" +
                         "- nájdenie maxima v celom datasete,\n" +
                         "- nájdenie maxima v danom roku,\n" +
-                        "- výpočet hodnoty majetku podľa dátumu nákupu.\n\n" +
+                        "- výpočet hodnoty majetku podľa dátumu nákupu,\n" +
+                        "- voliteľné zobrazenie grafu ceny zlata za daný rok.\n\n" +
                         "Pri výpočte majetku zadaj napríklad:\n" +
                         "Dátum nákupu: 2010-10\n" +
                         "Množstvo zlata: 10"
         );
+
+        lineChart.setTitle("Graf ceny zlata");
+        lineChart.setLegendVisible(false);
+
+        lineChart.setVisible(false);
+        lineChart.setManaged(false);
+    }
+
+    @FXML
+    private void handleToggleChart() {
+        boolean show = showChartCheckBox.isSelected();
+
+        lineChart.setVisible(show);
+        lineChart.setManaged(show);
+
+        if (show) {
+            int year = getYear();
+            if (year != -1) {
+                showChart(year);
+            }
+        } else {
+            clearChart();
+        }
     }
 
     @FXML
@@ -84,6 +117,10 @@ public class GoldPriceController {
         if (rate == -1) return;
 
         outputArea.setText(analyzer.getMonthlyPricesAsText(year, isEUR(), rate, isGram()));
+
+        if (showChartCheckBox.isSelected()) {
+            showChart(year);
+        }
     }
 
     @FXML
@@ -102,6 +139,7 @@ public class GoldPriceController {
 
         if (averageUsdPerOz == 0.0) {
             outputArea.setText("Pre rok " + year + " sa nenašli žiadne dáta.");
+            clearChart();
             return;
         }
 
@@ -114,6 +152,10 @@ public class GoldPriceController {
                         "Poznámka:\n" +
                         "Priemer je vypočítaný zo všetkých záznamov v datasete, ktoré patria do daného roka."
         );
+
+        if (showChartCheckBox.isSelected()) {
+            showChart(year);
+        }
     }
 
     @FXML
@@ -132,6 +174,7 @@ public class GoldPriceController {
 
         if (medianUsdPerOz == 0.0) {
             outputArea.setText("Pre rok " + year + " sa nenašli žiadne dáta.");
+            clearChart();
             return;
         }
 
@@ -144,6 +187,10 @@ public class GoldPriceController {
                         "Poznámka:\n" +
                         "Medián je stredná hodnota cien po zoradení od najnižšej po najvyššiu."
         );
+
+        if (showChartCheckBox.isSelected()) {
+            showChart(year);
+        }
     }
 
     @FXML
@@ -159,6 +206,7 @@ public class GoldPriceController {
 
         if (max == null) {
             outputArea.setText("Maximum sa nenašlo.");
+            clearChart();
             return;
         }
 
@@ -172,6 +220,8 @@ public class GoldPriceController {
                         "Pôvodná cena v datasete:\n" +
                         String.format("%.2f", max.getPricePerOunce()) + " USD/oz"
         );
+
+        clearChart();
     }
 
     @FXML
@@ -190,6 +240,7 @@ public class GoldPriceController {
 
         if (max == null) {
             outputArea.setText("Maximum sa pre rok " + year + " nenašlo.");
+            clearChart();
             return;
         }
 
@@ -202,6 +253,34 @@ public class GoldPriceController {
                         "Cena: " + String.format("%.2f", converted) + " " + getCurrency() + "/" + getUnit() + "\n\n" +
                         "Pôvodná cena v datasete:\n" +
                         String.format("%.2f", max.getPricePerOunce()) + " USD/oz"
+        );
+
+        if (showChartCheckBox.isSelected()) {
+            showChart(year);
+        }
+    }
+
+    @FXML
+    private void handleShowChart() {
+        setDefaultOutputStyle();
+
+        if (analyzer == null) return;
+
+        int year = getYear();
+        if (year == -1) return;
+
+        showChartCheckBox.setSelected(true);
+        lineChart.setVisible(true);
+        lineChart.setManaged(true);
+
+        showChart(year);
+
+        outputArea.setText(
+                "GRAF CENY ZLATA\n" +
+                        "========================================\n\n" +
+                        "Zobrazený graf pre rok: " + year + "\n\n" +
+                        "Graf zobrazuje vývoj ceny zlata podľa dátumov v datasete.\n" +
+                        "Cena v grafe je v pôvodnej jednotke datasetu: USD/oz."
         );
     }
 
@@ -231,12 +310,15 @@ public class GoldPriceController {
                             "2010-10\n\n" +
                             "Skontroluj tiež, či sa tento mesiac nachádza v CSV súbore."
             );
+
+            clearChart();
             return;
         }
 
         if (latestPrice == null) {
             setDefaultOutputStyle();
             outputArea.setText("Nepodarilo sa nájsť najnovšiu cenu v datasete.");
+            clearChart();
             return;
         }
 
@@ -328,6 +410,51 @@ public class GoldPriceController {
                         "Výpočet používa najnovšiu cenu dostupnú v CSV datasete.\n" +
                         "Nemusí ísť o reálnu cenu zlata k dnešnému dňu, ak dataset nie je aktuálny."
         );
+
+        if (showChartCheckBox.isSelected()) {
+            showChart(purchasePrice.getDate().getYear());
+        }
+    }
+
+    private void showChart(int year) {
+        if (lineChart == null || analyzer == null) {
+            return;
+        }
+
+        lineChart.getData().clear();
+
+        XYChart.Series<String, Number> series = new XYChart.Series<>();
+        series.setName("Cena zlata v roku " + year);
+
+        boolean found = false;
+
+        for (GoldPrice gp : analyzer.getGoldPrices()) {
+            if (gp.getDate().getYear() != year) {
+                continue;
+            }
+
+            found = true;
+
+            String date = gp.getDate().toString();
+            double price = gp.getPricePerOunce();
+
+            series.getData().add(new XYChart.Data<>(date, price));
+        }
+
+        if (!found) {
+            lineChart.setTitle("Pre rok " + year + " nie sú dostupné dáta");
+            return;
+        }
+
+        lineChart.setTitle("Vývoj ceny zlata v roku " + year + " (USD/oz)");
+        lineChart.getData().add(series);
+    }
+
+    private void clearChart() {
+        if (lineChart != null) {
+            lineChart.getData().clear();
+            lineChart.setTitle("Graf ceny zlata");
+        }
     }
 
     private int getYear() {
