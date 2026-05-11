@@ -1,210 +1,136 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.geometry.Insets?>
-<?import javafx.scene.control.Button?>
-<?import javafx.scene.control.ComboBox?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.control.TextArea?>
-<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.*?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
-<?import javafx.scene.layout.BorderPane?>
-<?import javafx.scene.layout.GridPane?>
-<?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.layout.*?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane xmlns="http://javafx.com/javafx/21"
-            xmlns:fx="http://javafx.com/fxml/1"
-            fx:controller="GoldPriceController"
-            prefWidth="980.0"
-            prefHeight="740.0"
-            style="-fx-background-color: #1e1e1e;">
+<StackPane xmlns="http://javafx.com/javafx/21"
+           xmlns:fx="http://javafx.com/fxml/1"
+           fx:controller="GoldPriceController"
+           prefWidth="980.0"
+           prefHeight="740.0">
 
-    <top>
-        <VBox alignment="CENTER" spacing="12.0" style="-fx-background-color: #2b2b2b;">
-            <padding>
-                <Insets top="18" right="20" bottom="18" left="20"/>
-            </padding>
+    <!-- POZADIE -->
+    <ImageView fitWidth="980"
+               fitHeight="740"
+               preserveRatio="false"
+               opacity="0.85">
+        <image>
+            <Image url="@images/gold.jpg"/>
+        </image>
+    </ImageView>
 
-            <Label text="ANALÝZA CENY ZLATA"
-                   textFill="#D4AF37">
-                <font>
-                    <Font name="Serif Bold" size="31"/>
-                </font>
-            </Label>
+    <!-- TMAVÝ FILTER CEZ OBRÁZOK -->
+    <BorderPane style="-fx-background-color: rgba(0,0,0,0.62);">
 
-            <Label text="Program na analýzu cien zlata z CSV datasetu"
-                   textFill="#E6E6E6">
-                <font>
-                    <Font name="System" size="14"/>
-                </font>
-            </Label>
+        <top>
+            <VBox alignment="CENTER" spacing="8">
+                <padding>
+                    <Insets top="28" right="20" bottom="20" left="20"/>
+                </padding>
 
-            <ImageView fx:id="goldImageView"
-                       fitWidth="270"
-                       fitHeight="135"
-                       preserveRatio="true">
-                <image>
-                    <Image url="@images/gold.jpg"/>
-                </image>
-            </ImageView>
-        </VBox>
-    </top>
-
-    <center>
-        <VBox spacing="15.0" style="-fx-background-color: #1e1e1e;">
-            <padding>
-                <Insets top="18" right="22" bottom="20" left="22"/>
-            </padding>
-
-            <GridPane hgap="12.0" vgap="12.0">
-
-                <Label text="Rok:"
-                       textFill="WHITE"
-                       GridPane.rowIndex="0"
-                       GridPane.columnIndex="0">
+                <Label text="ANALÝZA CENY ZLATA"
+                       textFill="#FFD700">
                     <font>
-                        <Font name="System Bold" size="14"/>
+                        <Font name="Serif Bold" size="38"/>
                     </font>
                 </Label>
 
-                <TextField fx:id="yearField"
-                           text="2024"
-                           promptText="Zadaj rok"
-                           prefWidth="150"
-                           GridPane.rowIndex="0"
-                           GridPane.columnIndex="1"/>
-
-                <Label text="Mena:"
-                       textFill="WHITE"
-                       GridPane.rowIndex="0"
-                       GridPane.columnIndex="2">
+                <Label text="Program na analýzu cien zlata z CSV datasetu"
+                       textFill="#F5E6A8">
                     <font>
-                        <Font name="System Bold" size="14"/>
+                        <Font name="System" size="15"/>
                     </font>
                 </Label>
+            </VBox>
+        </top>
 
-                <ComboBox fx:id="currencyComboBox"
-                          prefWidth="150"
-                          GridPane.rowIndex="0"
-                          GridPane.columnIndex="3"/>
+        <center>
+            <VBox spacing="16">
+                <padding>
+                    <Insets top="12" right="35" bottom="30" left="35"/>
+                </padding>
 
-                <Label text="Jednotka výpisu:"
-                       textFill="WHITE"
-                       GridPane.rowIndex="1"
-                       GridPane.columnIndex="0">
-                    <font>
-                        <Font name="System Bold" size="14"/>
-                    </font>
-                </Label>
+                <!-- PANEL VSTUPOV -->
+                <GridPane hgap="12" vgap="12"
+                          style="-fx-background-color: rgba(20,20,20,0.86);
+                                 -fx-background-radius: 18;
+                                 -fx-border-color: #D4AF37;
+                                 -fx-border-radius: 18;
+                                 -fx-border-width: 1.5;">
+                    <padding>
+                        <Insets top="22" right="24" bottom="22" left="24"/>
+                    </padding>
 
-                <ComboBox fx:id="unitComboBox"
-                          prefWidth="150"
-                          GridPane.rowIndex="1"
-                          GridPane.columnIndex="1"/>
+                    <Label text="Rok:" textFill="WHITE" GridPane.rowIndex="0" GridPane.columnIndex="0"/>
+                    <TextField fx:id="yearField" text="2024" promptText="Zadaj rok" prefWidth="150" GridPane.rowIndex="0" GridPane.columnIndex="1"/>
 
-                <Label text="Kurz USD → EUR:"
-                       textFill="WHITE"
-                       GridPane.rowIndex="1"
-                       GridPane.columnIndex="2">
-                    <font>
-                        <Font name="System Bold" size="14"/>
-                    </font>
-                </Label>
+                    <Label text="Mena:" textFill="WHITE" GridPane.rowIndex="0" GridPane.columnIndex="2"/>
+                    <ComboBox fx:id="currencyComboBox" prefWidth="150" GridPane.rowIndex="0" GridPane.columnIndex="3"/>
 
-                <TextField fx:id="exchangeRateField"
-                           text="0.92"
-                           promptText="napr. 0.92"
-                           prefWidth="150"
-                           GridPane.rowIndex="1"
-                           GridPane.columnIndex="3"/>
+                    <Label text="Jednotka výpisu:" textFill="WHITE" GridPane.rowIndex="1" GridPane.columnIndex="0"/>
+                    <ComboBox fx:id="unitComboBox" prefWidth="150" GridPane.rowIndex="1" GridPane.columnIndex="1"/>
 
-                <Label text="Dátum nákupu:"
-                       textFill="WHITE"
-                       GridPane.rowIndex="2"
-                       GridPane.columnIndex="0">
-                    <font>
-                        <Font name="System Bold" size="14"/>
-                    </font>
-                </Label>
+                    <Label text="Kurz USD → EUR:" textFill="WHITE" GridPane.rowIndex="1" GridPane.columnIndex="2"/>
+                    <TextField fx:id="exchangeRateField" text="0.92" promptText="napr. 0.92" prefWidth="150" GridPane.rowIndex="1" GridPane.columnIndex="3"/>
 
-                <TextField fx:id="purchaseDateField"
-                           text="2010-10"
-                           promptText="yyyy-MM"
-                           prefWidth="150"
-                           GridPane.rowIndex="2"
-                           GridPane.columnIndex="1"/>
+                    <Label text="Dátum nákupu:" textFill="WHITE" GridPane.rowIndex="2" GridPane.columnIndex="0"/>
+                    <TextField fx:id="purchaseDateField" text="2010-10" promptText="yyyy-MM" prefWidth="150" GridPane.rowIndex="2" GridPane.columnIndex="1"/>
 
-                <Label text="Množstvo zlata:"
-                       textFill="WHITE"
-                       GridPane.rowIndex="2"
-                       GridPane.columnIndex="2">
-                    <font>
-                        <Font name="System Bold" size="14"/>
-                    </font>
-                </Label>
+                    <Label text="Množstvo zlata:" textFill="WHITE" GridPane.rowIndex="2" GridPane.columnIndex="2"/>
+                    <TextField fx:id="ouncesField" text="10" promptText="v oz" prefWidth="150" GridPane.rowIndex="2" GridPane.columnIndex="3"/>
+                </GridPane>
 
-                <TextField fx:id="ouncesField"
-                           text="10"
-                           promptText="v oz"
-                           prefWidth="150"
-                           GridPane.rowIndex="2"
-                           GridPane.columnIndex="3"/>
+                <!-- TLAČIDLÁ -->
+                <VBox spacing="12"
+                      style="-fx-background-color: rgba(20,20,20,0.78);
+                             -fx-background-radius: 18;
+                             -fx-border-color: rgba(212,175,55,0.75);
+                             -fx-border-radius: 18;">
+                    <padding>
+                        <Insets top="16" right="16" bottom="16" left="16"/>
+                    </padding>
 
-            </GridPane>
+                    <HBox spacing="12" alignment="CENTER">
+                        <Button text="Mesačné ceny" onAction="#handleShowYearPrices" prefWidth="145" prefHeight="35"
+                                style="-fx-background-color: #D4AF37; -fx-text-fill: black; -fx-font-weight: bold;"/>
 
-            <HBox spacing="12.0" alignment="CENTER">
-                <Button text="Mesačné ceny"
-                        onAction="#handleShowYearPrices"
-                        prefWidth="145"
-                        prefHeight="34"
-                        style="-fx-background-color: #D4AF37; -fx-text-fill: black; -fx-font-weight: bold;"/>
+                        <Button text="Priemer v roku" onAction="#handleShowAverageForYear" prefWidth="145" prefHeight="35"
+                                style="-fx-background-color: #D4AF37; -fx-text-fill: black; -fx-font-weight: bold;"/>
 
-                <Button text="Priemer v roku"
-                        onAction="#handleShowAverageForYear"
-                        prefWidth="145"
-                        prefHeight="34"
-                        style="-fx-background-color: #D4AF37; -fx-text-fill: black; -fx-font-weight: bold;"/>
+                        <Button text="Medián v roku" onAction="#handleShowMedian" prefWidth="145" prefHeight="35"
+                                style="-fx-background-color: #D4AF37; -fx-text-fill: black; -fx-font-weight: bold;"/>
+                    </HBox>
 
-                <Button text="Medián v roku"
-                        onAction="#handleShowMedian"
-                        prefWidth="145"
-                        prefHeight="34"
-                        style="-fx-background-color: #D4AF37; -fx-text-fill: black; -fx-font-weight: bold;"/>
-            </HBox>
+                    <HBox spacing="12" alignment="CENTER">
+                        <Button text="Maximum datasetu" onAction="#handleShowMaximumAll" prefWidth="160" prefHeight="35"
+                                style="-fx-background-color: #FFD700; -fx-text-fill: black; -fx-font-weight: bold;"/>
 
-            <HBox spacing="12.0" alignment="CENTER">
-                <Button text="Maximum datasetu"
-                        onAction="#handleShowMaximumAll"
-                        prefWidth="160"
-                        prefHeight="34"
-                        style="-fx-background-color: #D4AF37; -fx-text-fill: black; -fx-font-weight: bold;"/>
+                        <Button text="Maximum v roku" onAction="#handleShowMaximumForYear" prefWidth="160" prefHeight="35"
+                                style="-fx-background-color: #FFD700; -fx-text-fill: black; -fx-font-weight: bold;"/>
 
-                <Button text="Maximum v roku"
-                        onAction="#handleShowMaximumForYear"
-                        prefWidth="160"
-                        prefHeight="34"
-                        style="-fx-background-color: #D4AF37; -fx-text-fill: black; -fx-font-weight: bold;"/>
+                        <Button text="Hodnota majetku" onAction="#handleCalculateAssetValue" prefWidth="160" prefHeight="35"
+                                style="-fx-background-color: #F0C419; -fx-text-fill: black; -fx-font-weight: bold;"/>
+                    </HBox>
+                </VBox>
 
-                <Button text="Hodnota majetku"
-                        onAction="#handleCalculateAssetValue"
-                        prefWidth="160"
-                        prefHeight="34"
-                        style="-fx-background-color: #D4AF37; -fx-text-fill: black; -fx-font-weight: bold;"/>
-            </HBox>
-
-            <TextArea fx:id="outputArea"
-                      editable="false"
-                      wrapText="false"
-                      prefHeight="410"
-                      style="-fx-control-inner-background: #141414;
-                             -fx-text-fill: white;
-                             -fx-font-family: 'Consolas';
-                             -fx-font-size: 14px;
-                             -fx-border-color: #D4AF37;
-                             -fx-border-width: 1;"/>
-        </VBox>
-    </center>
-
-</BorderPane>
+                <!-- VÝSTUP -->
+                <TextArea fx:id="outputArea"
+                          editable="false"
+                          wrapText="false"
+                          prefHeight="390"
+                          style="-fx-control-inner-background: #101010;
+                                 -fx-text-fill: white;
+                                 -fx-font-family: 'Consolas';
+                                 -fx-font-size: 14px;
+                                 -fx-border-color: #FFD700;
+                                 -fx-border-width: 1.5;
+                                 -fx-background-radius: 12;
+                                 -fx-border-radius: 12;"/>
+            </VBox>
+        </center>
+    </BorderPane>
+</StackPane>
