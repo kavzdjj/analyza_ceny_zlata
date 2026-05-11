@@ -17,29 +17,36 @@
 <BorderPane xmlns="http://javafx.com/javafx/21"
             xmlns:fx="http://javafx.com/fxml/1"
             fx:controller="GoldPriceController"
-            prefWidth="900.0"
-            prefHeight="650.0"
+            prefWidth="980.0"
+            prefHeight="740.0"
             style="-fx-background-color: #1e1e1e;">
 
     <top>
         <VBox alignment="CENTER" spacing="12.0" style="-fx-background-color: #2b2b2b;">
             <padding>
-                <Insets top="20" right="20" bottom="20" left="20"/>
+                <Insets top="18" right="20" bottom="18" left="20"/>
             </padding>
 
             <Label text="ANALÝZA CENY ZLATA"
                    textFill="#D4AF37">
                 <font>
-                    <Font name="Serif Bold" size="30"/>
+                    <Font name="Serif Bold" size="31"/>
+                </font>
+            </Label>
+
+            <Label text="Program na analýzu cien zlata z CSV datasetu"
+                   textFill="#E6E6E6">
+                <font>
+                    <Font name="System" size="14"/>
                 </font>
             </Label>
 
             <ImageView fx:id="goldImageView"
-                       fitWidth="260"
-                       fitHeight="140"
+                       fitWidth="270"
+                       fitHeight="135"
                        preserveRatio="true">
                 <image>
-                    <Image url="@../images/gold.jpg"/>
+                    <Image url="@images/gold.jpg"/>
                 </image>
             </ImageView>
         </VBox>
@@ -48,7 +55,7 @@
     <center>
         <VBox spacing="15.0" style="-fx-background-color: #1e1e1e;">
             <padding>
-                <Insets top="20" right="20" bottom="20" left="20"/>
+                <Insets top="18" right="22" bottom="20" left="22"/>
             </padding>
 
             <GridPane hgap="12.0" vgap="12.0">
@@ -65,6 +72,7 @@
                 <TextField fx:id="yearField"
                            text="2024"
                            promptText="Zadaj rok"
+                           prefWidth="150"
                            GridPane.rowIndex="0"
                            GridPane.columnIndex="1"/>
 
@@ -78,11 +86,11 @@
                 </Label>
 
                 <ComboBox fx:id="currencyComboBox"
-                          prefWidth="140"
+                          prefWidth="150"
                           GridPane.rowIndex="0"
                           GridPane.columnIndex="3"/>
 
-                <Label text="Jednotka:"
+                <Label text="Jednotka výpisu:"
                        textFill="WHITE"
                        GridPane.rowIndex="1"
                        GridPane.columnIndex="0">
@@ -92,7 +100,7 @@
                 </Label>
 
                 <ComboBox fx:id="unitComboBox"
-                          prefWidth="140"
+                          prefWidth="150"
                           GridPane.rowIndex="1"
                           GridPane.columnIndex="1"/>
 
@@ -108,36 +116,88 @@
                 <TextField fx:id="exchangeRateField"
                            text="0.92"
                            promptText="napr. 0.92"
+                           prefWidth="150"
                            GridPane.rowIndex="1"
                            GridPane.columnIndex="3"/>
+
+                <Label text="Dátum nákupu:"
+                       textFill="WHITE"
+                       GridPane.rowIndex="2"
+                       GridPane.columnIndex="0">
+                    <font>
+                        <Font name="System Bold" size="14"/>
+                    </font>
+                </Label>
+
+                <TextField fx:id="purchaseDateField"
+                           text="2010-10"
+                           promptText="yyyy-MM"
+                           prefWidth="150"
+                           GridPane.rowIndex="2"
+                           GridPane.columnIndex="1"/>
+
+                <Label text="Množstvo zlata:"
+                       textFill="WHITE"
+                       GridPane.rowIndex="2"
+                       GridPane.columnIndex="2">
+                    <font>
+                        <Font name="System Bold" size="14"/>
+                    </font>
+                </Label>
+
+                <TextField fx:id="ouncesField"
+                           text="10"
+                           promptText="v oz"
+                           prefWidth="150"
+                           GridPane.rowIndex="2"
+                           GridPane.columnIndex="3"/>
+
             </GridPane>
 
             <HBox spacing="12.0" alignment="CENTER">
-                <Button text="Výpis cien za rok"
+                <Button text="Mesačné ceny"
                         onAction="#handleShowYearPrices"
-                        prefWidth="170"
+                        prefWidth="145"
+                        prefHeight="34"
                         style="-fx-background-color: #D4AF37; -fx-text-fill: black; -fx-font-weight: bold;"/>
 
-                <Button text="Priemerná cena"
-                        onAction="#handleShowAverage"
-                        prefWidth="160"
+                <Button text="Priemer v roku"
+                        onAction="#handleShowAverageForYear"
+                        prefWidth="145"
+                        prefHeight="34"
                         style="-fx-background-color: #D4AF37; -fx-text-fill: black; -fx-font-weight: bold;"/>
 
-                <Button text="Medián za rok"
+                <Button text="Medián v roku"
                         onAction="#handleShowMedian"
-                        prefWidth="150"
+                        prefWidth="145"
+                        prefHeight="34"
+                        style="-fx-background-color: #D4AF37; -fx-text-fill: black; -fx-font-weight: bold;"/>
+            </HBox>
+
+            <HBox spacing="12.0" alignment="CENTER">
+                <Button text="Maximum datasetu"
+                        onAction="#handleShowMaximumAll"
+                        prefWidth="160"
+                        prefHeight="34"
                         style="-fx-background-color: #D4AF37; -fx-text-fill: black; -fx-font-weight: bold;"/>
 
-                <Button text="Maximum za rok"
-                        onAction="#handleShowMaximum"
-                        prefWidth="150"
+                <Button text="Maximum v roku"
+                        onAction="#handleShowMaximumForYear"
+                        prefWidth="160"
+                        prefHeight="34"
+                        style="-fx-background-color: #D4AF37; -fx-text-fill: black; -fx-font-weight: bold;"/>
+
+                <Button text="Hodnota majetku"
+                        onAction="#handleCalculateAssetValue"
+                        prefWidth="160"
+                        prefHeight="34"
                         style="-fx-background-color: #D4AF37; -fx-text-fill: black; -fx-font-weight: bold;"/>
             </HBox>
 
             <TextArea fx:id="outputArea"
                       editable="false"
                       wrapText="false"
-                      prefHeight="380"
+                      prefHeight="410"
                       style="-fx-control-inner-background: #141414;
                              -fx-text-fill: white;
                              -fx-font-family: 'Consolas';

@@ -1,6 +1,7 @@
 import java.time.LocalDate;
 
 public class GoldPrice {
+
     private final LocalDate date;
     private final double pricePerOunce;
 
@@ -19,6 +20,6 @@ public class GoldPrice {
 
     @Override
     public String toString() {
-        return "Dátum: " + date + ", cena (USD/oz): " + String.format("%.2f", pricePerOunce);
+        return "Dátum: " + date + ", cena USD/oz: " + String.format("%.2f", pricePerOunce);
     }
 }
