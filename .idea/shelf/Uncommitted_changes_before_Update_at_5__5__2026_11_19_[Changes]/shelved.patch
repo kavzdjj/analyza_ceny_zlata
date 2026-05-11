@@ -1,0 +1,63 @@
+Index: README.md
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+># Analýza ceny zlata\r\n\r\n## Popis projektu\r\nTento projekt je konzolová aplikácia v jazyku Java, ktorá slúži na analýzu historických cien zlata.\r\nAplikácia pracuje s dátami uloženými v CSV súbore a umožňuje používateľovi vykonávať rôzne analýzy\r\npomocou textového menu.\r\n\r\n## Použité technológie\r\n- Java\r\n- IntelliJ IDEA\r\n- Git a GitHub\r\n- CSV súbor\r\n- Mermaid (UML diagram, Flowchart)\r\n\r\n## Funkcionality programu\r\nProgram umožňuje:\r\n- načítať historické ceny zlata z CSV súboru\r\n- vypísať mesačné ceny zlata v zadanom roku\r\n- vypočítať priemer a medián cien v zadanom roku\r\n- nájsť maximálnu cenu zlata a jej dátum\r\n- vypočítať hodnotu majetku ku dnešnému dňu na základe nákupu zlata\r\n\r\nOvládanie programu prebieha pomocou textového menu v konzole.\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/README.md b/README.md
+--- a/README.md	(revision f8a0b2304b884f8c5ab394cc5609d4004067acba)
++++ b/README.md	(date 1777972686506)
+@@ -21,3 +21,52 @@
+ - vypočítať hodnotu majetku ku dnešnému dňu na základe nákupu zlata
+ 
+ Ovládanie programu prebieha pomocou textového menu v konzole.
++
++
++## UML Diagram tried
++
++```mermaid
++classDiagram
++    class GoldPrice {
++        - LocalDate date
++        - double pricePerOunce
++        + getDate()
++        + getPricePerOunce()
++    }
++
++    class FileReader {
++        + readGoldPricesFromCSV(String filePath) List~GoldPrice~
++    }
++
++    class PriceAnalyzer {
++        - List~GoldPrice~ goldPrices
++        + calculateAveragePrice() double
++        + calculateMedianPriceForYear(int year) double
++        + findMaxPrice() GoldPrice
++        + printMonthlyPrices(int year, boolean eur, double kurz, boolean gramy)
++    }
++
++    class Main {
++        + main(String[] args)
++    }
++
++    FileReader --> GoldPrice
++    PriceAnalyzer --> GoldPrice
++    Main --> FileReader
++```
++# FLOWCHART – VÝPOČET HODNOTY ZLATA
++
++## Vývojový diagram výpočtu hodnoty zlata
++
++```mermaid
++flowchart TD
++    A[Začiatok] --> B[Načítanie dát z CSV]
++    B --> C[Zadanie roku a množstva zlata]
++    C --> D{Existujú dáta pre rok?}
++    D -- Nie --> E[Vypíše sa chyba]
++    D -- Áno --> F[Získanie ceny zlata]
++    F --> G[Prepočet meny a jednotiek]
++    G --> H[Výpis výslednej hodnoty]
++    H --> I[Koniec]
++    Main --> PriceAnalyzer
++```
