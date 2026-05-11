@@ -7,7 +7,6 @@ import java.util.stream.Collectors;
 public class PriceAnalyzer {
 
     private final List<GoldPrice> goldPrices;
-
     private static final double GRAMS_IN_OUNCE = 31.1034768;
 
     public PriceAnalyzer(List<GoldPrice> goldPrices) {
@@ -30,10 +29,7 @@ public class PriceAnalyzer {
                 .collect(Collectors.toList());
 
         int size = prices.size();
-
-        if (size == 0) {
-            return 0.0;
-        }
+        if (size == 0) return 0.0;
 
         if (size % 2 == 0) {
             return (prices.get(size / 2 - 1) + prices.get(size / 2)) / 2.0;
@@ -90,13 +86,16 @@ public class PriceAnalyzer {
         sb.append("========================================\n\n");
 
         for (GoldPrice gp : goldPrices) {
-            if (gp.getDate().getYear() != year) {
-                continue;
-            }
+            if (gp.getDate().getYear() != year) continue;
 
             found = true;
 
-            double cenaFinal = convertPrice(gp.getPricePerOunce(), eur, kurzUsdEur, gramy);
+            double cenaFinal = convertPrice(
+                    gp.getPricePerOunce(),
+                    eur,
+                    kurzUsdEur,
+                    gramy
+            );
 
             sb.append(gp.getDate())
                     .append(" -> ")
@@ -127,5 +126,47 @@ public class PriceAnalyzer {
         }
 
         return price;
+    }
+
+    // 🔥 MAJETOK (ZISK / STRATA)
+    public String calculateInvestment(String purchaseDateText, double grams) {
+
+        double buyPrice = 0;
+        boolean found = false;
+
+        for (GoldPrice gp : goldPrices) {
+            if (gp.getDate().toString().startsWith(purchaseDateText)) {
+                buyPrice = gp.getPricePerOunce();
+                found = true;
+                break;
+            }
+        }
+
+        if (!found) {
+            return "Nenašli sa dáta pre dátum nákupu.";
+        }
+
+        GoldPrice latest = findLatestPrice();
+        double currentPrice = latest.getPricePerOunce();
+
+        double ounces = grams / GRAMS_IN_OUNCE;
+
+        double invested = ounces * buyPrice;
+        double currentValue = ounces * currentPrice;
+        double difference = currentValue - invested;
+
+        String status;
+        if (difference > 0) status = "ZISK 📈";
+        else if (difference < 0) status = "STRATA 📉";
+        else status = "BEZ ZMENY";
+
+        return "Dátum nákupu: " + purchaseDateText +
+                "\nMnožstvo: " + grams + " g" +
+                "\n\nCena pri nákupe: " + String.format("%.2f", buyPrice) + " USD/oz" +
+                "\nInvestovaná suma: " + String.format("%.2f", invested) + " USD" +
+                "\n\nAktuálna cena: " + String.format("%.2f", currentPrice) + " USD/oz" +
+                "\nAktuálna hodnota: " + String.format("%.2f", currentValue) + " USD" +
+                "\n\nRozdiel: " + String.format("%.2f", difference) + " USD" +
+                "\nStav: " + status;
     }
 }
