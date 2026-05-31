@@ -67,32 +67,53 @@ Používateľ zadá požadované údaje do grafického rozhrania aplikácie a n�
 
 ```mermaid
 classDiagram
-    class GoldPrice {
-        - LocalDate date
-        - double pricePerOunce
-        + getDate()
-        + getPricePerOunce()
-    }
-
-    class GoldPriceReader {
-        + readGoldPricesFromCSV(String filePath)
-    }
-
-    class PriceAnalyzer {
-        - List~GoldPrice~ goldPrices
-        + calculateAveragePriceForYear()
-        + calculateMedianPriceForYear()
-        + findMaxPrice()
-        + findMaxPriceForYear()
-    }
-
-    class GoldPriceController
-
-    class GoldPriceApplication
 
     GoldPriceReader --> GoldPrice
     PriceAnalyzer --> GoldPrice
     GoldPriceController --> PriceAnalyzer
+    GoldPriceApplication --> GoldPriceController
+    GoldPriceApplication --> gold_price_view
+
+    class GoldPrice {
+        -LocalDate date
+        -double pricePerOunce
+        +getDate()
+        +getPricePerOunce()
+    }
+
+    class GoldPriceReader {
+        +readGoldPricesFromCSV(String filePath)
+    }
+
+    class PriceAnalyzer {
+        -List~GoldPrice~ goldPrices
+        +calculateAveragePriceForYear(int year)
+        +calculateMedianPriceForYear(int year)
+        +findMaxPrice()
+        +findMaxPriceForYear(int year)
+        +calculateInvestmentValue()
+        +getMonthlyPrices(int year)
+    }
+
+    class GoldPriceController {
+        +showMonthlyPrices()
+        +showAveragePrice()
+        +showMedianPrice()
+        +showMaxPrice()
+        +showMaxPriceForYear()
+        +calculateInvestment()
+        +toggleTheme()
+        +showChart()
+    }
+
+    class GoldPriceApplication {
+        +start(Stage stage)
+        +main(String[] args)
+    }
+
+    class gold_price_view {
+        <<FXML>>
+    }
 ```
 
 # FLOWCHART – VÝPOČET HODNOTY ZLATA

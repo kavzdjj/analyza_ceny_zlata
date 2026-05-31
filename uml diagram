@@ -1,41 +1,48 @@
 classDiagram
 
-class Main {
-    +main(String[] args)
-}
+    GoldPriceReader --> GoldPrice
+    PriceAnalyzer --> GoldPrice
+    GoldPriceController --> PriceAnalyzer
+    GoldPriceApplication --> GoldPriceController
+    GoldPriceApplication --> gold_price_view
 
-class Menu {
-    +showMenu()
-    +handleUserInput()
-}
+    class GoldPrice {
+        -LocalDate date
+        -double pricePerOunce
+        +getDate()
+        +getPricePerOunce()
+    }
 
-class CsvLoader {
-    +loadPrices(String filePath) List~GoldPrice~
-}
+    class GoldPriceReader {
+        +readGoldPricesFromCSV(String filePath)
+    }
 
-class GoldPrice {
-    -LocalDate date
-    -double price
-    +getDate() LocalDate
-    +getPrice() double
-}
+    class PriceAnalyzer {
+        -List~GoldPrice~ goldPrices
+        +calculateAveragePriceForYear(int year)
+        +calculateMedianPriceForYear(int year)
+        +findMaxPrice()
+        +findMaxPriceForYear(int year)
+        +calculateInvestmentValue()
+        +getMonthlyPrices(int year)
+    }
 
-class GoldDataService {
-    +getPricesByYear(int year) List~GoldPrice~
-    +getMaxPrice() GoldPrice
-    +getMaxPriceByYear(int year) GoldPrice
-    +getCurrentPrice() GoldPrice
-}
+    class GoldPriceController {
+        +showMonthlyPrices()
+        +showAveragePrice()
+        +showMedianPrice()
+        +showMaxPrice()
+        +showMaxPriceForYear()
+        +calculateInvestment()
+        +toggleTheme()
+        +showChart()
+    }
 
-class StatisticsService {
-    +calculateAverage(List~GoldPrice~ prices) double
-    +calculateMedian(List~GoldPrice~ prices) double
-}
+    class GoldPriceApplication {
+        +start(Stage stage)
+        +main(String[] args)
+    }
 
-Main --> Menu
-Menu --> GoldDataService
-Menu --> StatisticsService
-GoldDataService --> CsvLoader
-GoldDataService --> GoldPrice
-StatisticsService --> GoldPrice
-CsvLoader --> GoldPrice
+    class gold_price_view {
+        <<FXML>>
+    }

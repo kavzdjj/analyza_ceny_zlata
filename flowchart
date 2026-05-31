@@ -1,10 +1,11 @@
 flowchart TD
-    A[Spustenie programu] --> B[Zadanie roku a mesiaca nákupu]
-    B --> C[Zadanie množstva zlata v oz]
-    C --> D{Existujú dáta\npre daný mesiac?}
-    D -- Nie --> E[Vypísať chybu]
-    D -- Áno --> F[Nájsť cenu zlata\nv danom mesiaci]
-    F --> G[Nájsť aktuálnu cenu zlata]
-    G --> H[Vypočítať hodnotu majetku]
-    H --> I[Vypísať výsledok]
-    I --> J[Koniec programu]
+    A[Začiatok] --> B[Načítanie dát z CSV]
+    B --> C[Zadanie dátumu nákupu a množstva zlata]
+    C --> D{Existuje záznam v datasete?}
+    D -- Nie --> E[Výpis chybovej správy]
+    D -- Áno --> F[Načítanie ceny pri nákupe]
+    F --> G[Načítanie najnovšej ceny]
+    G --> H[Výpočet aktuálnej hodnoty]
+    H --> I[Výpočet zisku alebo straty]
+    I --> J[Výpis výsledkov]
+    J --> K[Koniec]
