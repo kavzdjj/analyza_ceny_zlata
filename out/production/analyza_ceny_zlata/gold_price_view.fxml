@@ -109,6 +109,7 @@
                                prefWidth="150"
                                GridPane.rowIndex="2"
                                GridPane.columnIndex="3"/>
+
                 </GridPane>
 
                 <VBox spacing="12" styleClass="button-panel">
@@ -117,6 +118,12 @@
                     </padding>
 
                     <HBox spacing="12" alignment="CENTER">
+                        <Button text="Reset formulára"
+                                onAction="#handleResetForm"
+                                prefWidth="160"
+                                prefHeight="35"
+                                styleClass="gold-button"/>
+
                         <Button text="Mesačné ceny"
                                 onAction="#handleShowYearPrices"
                                 prefWidth="145"

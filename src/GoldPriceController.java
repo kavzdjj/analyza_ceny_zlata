@@ -15,6 +15,9 @@ public class GoldPriceController {
     private CheckBox showChartCheckBox;
 
     @FXML
+    private CheckBox themeCheckBox;
+
+    @FXML
     private LineChart<String, Number> lineChart;
 
     @FXML
@@ -39,6 +42,7 @@ public class GoldPriceController {
     private TextArea outputArea;
 
     private PriceAnalyzer analyzer;
+    private boolean lightTheme = false;
 
     @FXML
     public void initialize() {
@@ -85,6 +89,20 @@ public class GoldPriceController {
 
         lineChart.setVisible(false);
         lineChart.setManaged(false);
+    }
+
+    @FXML
+    private void handleToggleTheme() {
+        lightTheme = themeCheckBox.isSelected();
+
+        String cssFile = lightTheme ? "light.css" : "dark.css";
+
+        outputArea.getScene().getStylesheets().clear();
+        outputArea.getScene().getStylesheets().add(
+                getClass().getResource(cssFile).toExternalForm()
+        );
+
+        setDefaultOutputStyle();
     }
 
     @FXML
@@ -157,7 +175,10 @@ public class GoldPriceController {
             showChart(year);
         }
     }
-
+    @FXML
+    private void handleClearOutput() {
+        outputArea.clear();
+    }
     @FXML
     private void handleShowMedian() {
         setDefaultOutputStyle();
@@ -281,6 +302,29 @@ public class GoldPriceController {
                         "Zobrazený graf pre rok: " + year + "\n\n" +
                         "Graf zobrazuje vývoj ceny zlata podľa dátumov v datasete.\n" +
                         "Cena v grafe je v pôvodnej jednotke datasetu: USD/oz."
+        );
+    }
+
+    @FXML
+    private void handleResetForm() {
+        yearField.setText("2024");
+        exchangeRateField.setText("0.92");
+        purchaseDateField.setText("2010-10");
+        ouncesField.setText("10");
+
+        currencyComboBox.setValue("USD");
+        unitComboBox.setValue("oz");
+
+        showChartCheckBox.setSelected(false);
+        lineChart.setVisible(false);
+        lineChart.setManaged(false);
+        clearChart();
+
+        setDefaultOutputStyle();
+
+        outputArea.setText(
+                "Formulár bol resetovaný.\n\n" +
+                        "Hodnoty boli nastavené späť na predvolené."
         );
     }
 
@@ -522,12 +566,21 @@ public class GoldPriceController {
     }
 
     private void setDefaultOutputStyle() {
-        outputArea.setStyle("-fx-control-inner-background: #141414; " +
-                "-fx-text-fill: white; " +
-                "-fx-font-family: 'Consolas'; " +
-                "-fx-font-size: 14px; " +
-                "-fx-border-color: #D4AF37; " +
-                "-fx-border-width: 1;");
+        if (lightTheme) {
+            outputArea.setStyle("-fx-control-inner-background: white; " +
+                    "-fx-text-fill: black; " +
+                    "-fx-font-family: 'Consolas'; " +
+                    "-fx-font-size: 14px; " +
+                    "-fx-border-color: #B89020; " +
+                    "-fx-border-width: 1;");
+        } else {
+            outputArea.setStyle("-fx-control-inner-background: #141414; " +
+                    "-fx-text-fill: white; " +
+                    "-fx-font-family: 'Consolas'; " +
+                    "-fx-font-size: 14px; " +
+                    "-fx-border-color: #D4AF37; " +
+                    "-fx-border-width: 1;");
+        }
     }
 
     private void setProfitOutputStyle() {
@@ -549,12 +602,7 @@ public class GoldPriceController {
     }
 
     private void setNeutralOutputStyle() {
-        outputArea.setStyle("-fx-control-inner-background: #1c1c1c; " +
-                "-fx-text-fill: white; " +
-                "-fx-font-family: 'Consolas'; " +
-                "-fx-font-size: 14px; " +
-                "-fx-border-color: #D4AF37; " +
-                "-fx-border-width: 2;");
+        setDefaultOutputStyle();
     }
 
     private void showError(String message) {

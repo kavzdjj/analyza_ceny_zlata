@@ -13,6 +13,10 @@ public class GoldPriceApplication extends Application {
 
         Scene scene = new Scene(loader.load());
 
+        scene.getStylesheets().add(
+                GoldPriceApplication.class.getResource("dark.css").toExternalForm()
+        );
+
         stage.setTitle("Analýza ceny zlata");
         stage.setScene(scene);
         stage.setResizable(false);
