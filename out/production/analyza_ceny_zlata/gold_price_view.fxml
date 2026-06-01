@@ -16,7 +16,6 @@
            prefWidth="980.0"
            prefHeight="900.0">
 
-    <!-- POZADIE -->
     <ImageView fitWidth="980"
                fitHeight="900"
                preserveRatio="false"
@@ -26,8 +25,7 @@
         </image>
     </ImageView>
 
-    <!-- TMAVÝ FILTER CEZ OBRÁZOK -->
-    <BorderPane style="-fx-background-color: rgba(0,0,0,0.62);">
+    <BorderPane styleClass="main-overlay">
 
         <top>
             <VBox alignment="CENTER" spacing="8">
@@ -36,14 +34,14 @@
                 </padding>
 
                 <Label text="ANALÝZA CENY ZLATA"
-                       textFill="#FFD700">
+                       styleClass="title-label">
                     <font>
                         <Font name="Serif Bold" size="38"/>
                     </font>
                 </Label>
 
                 <Label text="Program na analýzu cien zlata z CSV datasetu"
-                       textFill="#F5E6A8">
+                       styleClass="subtitle-label">
                     <font>
                         <Font name="System" size="15"/>
                     </font>
@@ -57,21 +55,12 @@
                     <Insets top="12" right="35" bottom="30" left="35"/>
                 </padding>
 
-                <!-- PANEL VSTUPOV -->
-                <GridPane hgap="12" vgap="12"
-                          style="-fx-background-color: rgba(20,20,20,0.86);
-                                 -fx-background-radius: 18;
-                                 -fx-border-color: #D4AF37;
-                                 -fx-border-radius: 18;
-                                 -fx-border-width: 1.5;">
+                <GridPane hgap="12" vgap="12" styleClass="card-panel">
                     <padding>
                         <Insets top="22" right="24" bottom="22" left="24"/>
                     </padding>
 
-                    <Label text="Rok:"
-                           textFill="WHITE"
-                           GridPane.rowIndex="0"
-                           GridPane.columnIndex="0"/>
+                    <Label text="Rok:" styleClass="form-label" GridPane.rowIndex="0" GridPane.columnIndex="0"/>
 
                     <TextField fx:id="yearField"
                                text="2024"
@@ -80,30 +69,21 @@
                                GridPane.rowIndex="0"
                                GridPane.columnIndex="1"/>
 
-                    <Label text="Mena:"
-                           textFill="WHITE"
-                           GridPane.rowIndex="0"
-                           GridPane.columnIndex="2"/>
+                    <Label text="Mena:" styleClass="form-label" GridPane.rowIndex="0" GridPane.columnIndex="2"/>
 
                     <ComboBox fx:id="currencyComboBox"
                               prefWidth="150"
                               GridPane.rowIndex="0"
                               GridPane.columnIndex="3"/>
 
-                    <Label text="Jednotka výpisu:"
-                           textFill="WHITE"
-                           GridPane.rowIndex="1"
-                           GridPane.columnIndex="0"/>
+                    <Label text="Jednotka výpisu:" styleClass="form-label" GridPane.rowIndex="1" GridPane.columnIndex="0"/>
 
                     <ComboBox fx:id="unitComboBox"
                               prefWidth="150"
                               GridPane.rowIndex="1"
                               GridPane.columnIndex="1"/>
 
-                    <Label text="Kurz USD → EUR:"
-                           textFill="WHITE"
-                           GridPane.rowIndex="1"
-                           GridPane.columnIndex="2"/>
+                    <Label text="Kurz USD → EUR:" styleClass="form-label" GridPane.rowIndex="1" GridPane.columnIndex="2"/>
 
                     <TextField fx:id="exchangeRateField"
                                text="0.92"
@@ -112,10 +92,7 @@
                                GridPane.rowIndex="1"
                                GridPane.columnIndex="3"/>
 
-                    <Label text="Dátum nákupu:"
-                           textFill="WHITE"
-                           GridPane.rowIndex="2"
-                           GridPane.columnIndex="0"/>
+                    <Label text="Dátum nákupu:" styleClass="form-label" GridPane.rowIndex="2" GridPane.columnIndex="0"/>
 
                     <TextField fx:id="purchaseDateField"
                                text="2010-10"
@@ -124,10 +101,7 @@
                                GridPane.rowIndex="2"
                                GridPane.columnIndex="1"/>
 
-                    <Label text="Množstvo zlata:"
-                           textFill="WHITE"
-                           GridPane.rowIndex="2"
-                           GridPane.columnIndex="2"/>
+                    <Label text="Množstvo zlata:" styleClass="form-label" GridPane.rowIndex="2" GridPane.columnIndex="2"/>
 
                     <TextField fx:id="ouncesField"
                                text="10"
@@ -135,68 +109,78 @@
                                prefWidth="150"
                                GridPane.rowIndex="2"
                                GridPane.columnIndex="3"/>
+
                 </GridPane>
 
-                <!-- TLAČIDLÁ A PREPÍNAČ GRAFU -->
-                <VBox spacing="12"
-                      style="-fx-background-color: rgba(20,20,20,0.78);
-                             -fx-background-radius: 18;
-                             -fx-border-color: rgba(212,175,55,0.75);
-                             -fx-border-radius: 18;">
+                <VBox spacing="12" styleClass="button-panel">
                     <padding>
                         <Insets top="16" right="16" bottom="16" left="16"/>
                     </padding>
 
                     <HBox spacing="12" alignment="CENTER">
+                        <Button text="Reset formulára"
+                                onAction="#handleResetForm"
+                                prefWidth="160"
+                                prefHeight="35"
+                                styleClass="gold-button"/>
+
                         <Button text="Mesačné ceny"
                                 onAction="#handleShowYearPrices"
                                 prefWidth="145"
                                 prefHeight="35"
-                                style="-fx-background-color: #D4AF37; -fx-text-fill: black; -fx-font-weight: bold;"/>
+                                styleClass="gold-button"/>
 
                         <Button text="Priemer v roku"
                                 onAction="#handleShowAverageForYear"
                                 prefWidth="145"
                                 prefHeight="35"
-                                style="-fx-background-color: #D4AF37; -fx-text-fill: black; -fx-font-weight: bold;"/>
+                                styleClass="gold-button"/>
 
                         <Button text="Medián v roku"
                                 onAction="#handleShowMedian"
                                 prefWidth="145"
                                 prefHeight="35"
-                                style="-fx-background-color: #D4AF37; -fx-text-fill: black; -fx-font-weight: bold;"/>
+                                styleClass="gold-button"/>
                     </HBox>
 
                     <HBox spacing="12" alignment="CENTER">
+                        <Button text="Vymazať výstup"
+                                onAction="#handleClearOutput"
+                                prefWidth="160"
+                                prefHeight="35"
+                                styleClass="gold-button"/>
+
                         <Button text="Maximum datasetu"
                                 onAction="#handleShowMaximumAll"
                                 prefWidth="160"
                                 prefHeight="35"
-                                style="-fx-background-color: #FFD700; -fx-text-fill: black; -fx-font-weight: bold;"/>
+                                styleClass="gold-button-strong"/>
 
                         <Button text="Maximum v roku"
                                 onAction="#handleShowMaximumForYear"
                                 prefWidth="160"
                                 prefHeight="35"
-                                style="-fx-background-color: #FFD700; -fx-text-fill: black; -fx-font-weight: bold;"/>
+                                styleClass="gold-button-strong"/>
 
                         <Button text="Hodnota majetku"
                                 onAction="#handleCalculateAssetValue"
                                 prefWidth="160"
                                 prefHeight="35"
-                                style="-fx-background-color: #F0C419; -fx-text-fill: black; -fx-font-weight: bold;"/>
+                                styleClass="gold-button-strong"/>
                     </HBox>
 
-                    <HBox spacing="12" alignment="CENTER">
+                    <HBox spacing="18" alignment="CENTER">
                         <CheckBox fx:id="showChartCheckBox"
                                   text="Zobraziť graf"
-                                  textFill="WHITE"
-                                  onAction="#handleToggleChart"
-                                  style="-fx-font-weight: bold;"/>
+                                  onAction="#handleToggleChart"/>
+
+                        <CheckBox fx:id="themeCheckBox"
+                                  text="Svetlý režim"
+                                  onAction="#handleToggleTheme"/>
+
                     </HBox>
                 </VBox>
 
-                <!-- GRAF -->
                 <LineChart fx:id="lineChart"
                            prefHeight="300"
                            title="Vývoj ceny zlata"
@@ -204,10 +188,7 @@
                            managed="false"
                            createSymbols="true"
                            animated="false"
-                           style="-fx-background-color: rgba(10,10,10,0.9);
-                                  -fx-border-color: #FFD700;
-                                  -fx-border-radius: 12;
-                                  -fx-background-radius: 12;">
+                           styleClass="gold-chart">
 
                     <xAxis>
                         <CategoryAxis label="Dátum"/>
@@ -218,19 +199,11 @@
                     </yAxis>
                 </LineChart>
 
-                <!-- VÝSTUP -->
                 <TextArea fx:id="outputArea"
                           editable="false"
                           wrapText="false"
                           prefHeight="330"
-                          style="-fx-control-inner-background: #101010;
-                                 -fx-text-fill: white;
-                                 -fx-font-family: 'Consolas';
-                                 -fx-font-size: 14px;
-                                 -fx-border-color: #FFD700;
-                                 -fx-border-width: 1.5;
-                                 -fx-background-radius: 12;
-                                 -fx-border-radius: 12;"/>
+                          styleClass="output-area"/>
             </VBox>
         </center>
     </BorderPane>

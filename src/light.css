@@ -1,0 +1,73 @@
+.root {
+    -fx-font-family: "Segoe UI";
+}
+
+.main-overlay {
+    -fx-background-color: rgba(255,255,255,0.72);
+}
+
+.title-label {
+    -fx-text-fill: #8A6500;
+}
+
+.subtitle-label {
+    -fx-text-fill: #4A3A12;
+}
+
+.form-label {
+    -fx-text-fill: #111111;
+}
+
+.card-panel {
+    -fx-background-color: rgba(255,255,255,0.90);
+    -fx-background-radius: 18;
+    -fx-border-color: #B89020;
+    -fx-border-radius: 18;
+    -fx-border-width: 1.5;
+}
+
+.button-panel {
+    -fx-background-color: rgba(255,255,255,0.85);
+    -fx-background-radius: 18;
+    -fx-border-color: #B89020;
+    -fx-border-radius: 18;
+}
+
+.gold-button {
+    -fx-background-color: #C99A18;
+    -fx-text-fill: black;
+    -fx-font-weight: bold;
+}
+
+.gold-button:hover {
+    -fx-background-color: #E5B832;
+}
+
+.gold-button-strong {
+    -fx-background-color: #D8A900;
+    -fx-text-fill: black;
+    -fx-font-weight: bold;
+}
+
+.check-box {
+    -fx-text-fill: #111111;
+    -fx-font-weight: bold;
+}
+
+.gold-chart {
+    -fx-background-color: rgba(255,255,255,0.92);
+    -fx-border-color: #B89020;
+    -fx-border-radius: 12;
+    -fx-background-radius: 12;
+}
+
+.output-area {
+    -fx-control-inner-background: white;
+    -fx-text-fill: black;
+    -fx-font-family: "Consolas";
+    -fx-font-size: 14px;
+    -fx-border-color: #B89020;
+    -fx-border-width: 1.5;
+    -fx-background-radius: 12;
+    -fx-border-radius: 12;
+}
